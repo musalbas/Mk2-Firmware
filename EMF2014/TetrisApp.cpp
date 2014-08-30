@@ -172,52 +172,25 @@ private:
 
 	class Tetrad {
 	private:
-		const Pos layouts[7][4][4] = {
+		const Pos layouts[1][4][40] = {
 			{ // I
-				{{0, 1}, {1, 1}, {2, 1}, {3, 1}},
-				{{2, 0}, {2, 1}, {2, 2}, {2, 3}},
-				{{0, 1}, {1, 1}, {2, 1}, {3, 1}},
-				{{2, 0}, {2, 1}, {2, 2}, {2, 3}}
+				{{0, 1}, {0, 2}, {0, 3}, {0, 4},
+{1, 1}, {1, 2}, {1, 3}, {1, 4},
+{2, 1}, {2, 2}, {2, 3}, {2, 4},
+{3, 1}, {3, 2}, {3, 3}, {3, 4},
+{4, 1}, {4, 2}, {4, 3}, {4, 4},
+{5, 1}, {5, 2}, {5, 3}, {5, 4},
+{6, 1}, {6, 2}, {6, 3}, {6, 4},
+{7, 1}, {7, 2}, {7, 3}, {7, 4},
+{8, 1}, {8, 2}, {8, 3}, {8, 4},
+{9, 1}, {9, 2}, {9, 3}, {9, 4}},
+				{{0, 0}, {0, 1}, {1, 0}, {1, 1}, {0, 2}, {2, 0}, {2, 1}, {1, 2}, {2, 2}, {3, 0}, {4, 0}, {5, 0}, {6, 0}},
+				{{0, 0}, {0, 1}, {1, 0}, {1, 1}, {0, 2}, {2, 0}, {2, 1}, {1, 2}, {2, 2}, {3, 0}, {4, 0}, {5, 0}, {6, 0}},
+				{{0, 0}, {0, 1}, {1, 0}, {1, 1}, {0, 2}, {2, 0}, {2, 1}, {1, 2}, {2, 2}, {3, 0}, {4, 0}, {5, 0}, {6, 0}},
 			},
-			{ // O
-				{{0, 0}, {0, 1}, {1, 0}, {1, 1}},
-				{{0, 0}, {0, 1}, {1, 0}, {1, 1}},
-				{{0, 0}, {0, 1}, {1, 0}, {1, 1}},
-				{{0, 0}, {0, 1}, {1, 0}, {1, 1}}
-			},
-			{ // Z
-				{{0, 1}, {1, 0}, {1, 1}, {2, 0}},
-				{{1, 0}, {1, 1}, {2, 1}, {2, 2}},
-				{{0, 1}, {1, 0}, {1, 1}, {2, 0}},
-				{{1, 0}, {1, 1}, {2, 1}, {2, 2}},
-			},
-			{ // S
-				{{0, 0}, {1, 0}, {1, 1}, {2, 1}},
-				{{2, 0}, {1, 1}, {2, 1}, {1, 2}},
-				{{0, 0}, {1, 0}, {1, 1}, {2, 1}},
-				{{2, 0}, {1, 1}, {2, 1}, {1, 2}},
-			},
-			{ // T
-				{{0, 1}, {1, 1}, {2, 1}, {1, 2}},
-				{{1, 0}, {1, 1}, {1, 2}, {2, 1}},
-				{{0, 1}, {1, 1}, {2, 1}, {1, 0}},
-				{{1, 0}, {1, 1}, {1, 2}, {0, 1}}
-			},
-			{ // L
-				{{0, 1}, {1, 1}, {2, 1}, {2, 2}},
-				{{1, 0}, {1, 1}, {1, 2}, {2, 0}},
-				{{0, 0}, {0, 1}, {1, 1}, {2, 1}},
-				{{0, 2}, {1, 2}, {1, 1}, {1, 0}}
-			},
-			{ // J
-				{{0, 2}, {0, 1}, {1, 1}, {2, 1}},
-				{{1, 0}, {1, 1}, {1, 2}, {2, 2}},
-				{{0, 1}, {1, 1}, {2, 1}, {2, 0}},
-				{{0, 0}, {1, 0}, {1, 1}, {1, 2}}
-			}
 		};
 
-		const Pos startPositions[7] = {{3, 1}, {4, 1}, {3, 1}, {3, 1}, {3, 2}, {3, 2}, {3, 2}};
+		const Pos startPositions[7] = {{0, 4}, {0, 4}, {0, 4}, {0, 4}, {0, 4}, {0, 4}, {0, 4}};
 		const Pos nextPositions[7] = {{6, 0}, {8, 1}, {7, 1}, {7, 1}, {7, 0}, {7, 0}, {7, 0}};
 
 		Board *board;
@@ -229,7 +202,7 @@ private:
 
 	public:
 		static Tetrad *createRandom(Board *b) {
-			return new Tetrad(b, (tetradType) random(7));
+			return new Tetrad(b, (tetradType) random(1));
 		}
 
 		Tetrad(Board *b, tetradType t) : board(b), type(t) {
@@ -242,12 +215,13 @@ private:
 		}
 
 		void draw(Pos p, int o) {
-			for (int b = 0; b < 4; b++) {
+			for (int b = 0; b < 40; b++) {
 				board->drawBlock(p + layouts[type][o][b], type);
 			}
 		}
 
 		void drawNext() {
+                        return;
 			Pos nextPos;
 			nextPos.x = nextPositions[type].x;
 			nextPos.y = ROWS + nextPositions[type].y;
@@ -255,7 +229,7 @@ private:
 		}
 
 		bool canMove(Pos newPos, int newOrient) {
-			for (int b = 0; b < 4; b++) {
+			for (int b = 0; b < 40; b++) {
 				if (!board->isPosAvailable(newPos + layouts[type][newOrient][b])) {
 					return false;
 				}
@@ -307,7 +281,7 @@ private:
 		}
 
 		void crystalise() {
-			for (int b = 0; b < 4; b++) {
+			for (int b = 0; b < 40; b++) {
 				board->setPos(pos + layouts[type][orient][b], type);
 			}
 		}
@@ -339,6 +313,8 @@ private:
 			// Levels are modelled with a simple quadratic
 			period = nearbyint(l*l*a + l*b + c);
 		}
+                period = 20;
+        
 	}
 
 	void drawAll() {
@@ -348,7 +324,7 @@ private:
 
 		for (int i = 0; i < 7; i++) {
 			GLCD.CursorToXY(58, i * 8);
-			GLCD.PutChar("EMFTRIS"[i]);
+			GLCD.PutChar("LOLTRIS"[i]);
 		}
 
 		GLCD.CursorToXY(53, 120);
@@ -417,10 +393,10 @@ public:
 	void handleButton(Button b) {
 		switch (b) {
 		case A:
-			current->rotateRight();
+			current->rotateLeft();
 			break;
 		case B:
-			current->rotateLeft();
+			current->rotateRight();
 			break;
 		case LEFT:
 			current->moveLeft();
